@@ -17,47 +17,47 @@ import com.mrbysco.motd.system.RepeatingSystem;
 import javax.annotation.Nonnull;
 
 public class MOTDPlugin extends JavaPlugin {
-    protected static MOTDPlugin instance;
-    public static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
-    public static ComponentType<EntityStore, MOTDAgeComponent> ageComponent;
-    private final Config<MOTDConfig> config;
+	protected static MOTDPlugin instance;
+	public static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
+	public static ComponentType<EntityStore, MOTDAgeComponent> ageComponent;
+	private final Config<MOTDConfig> config;
 
 
-    public static MOTDPlugin get() {
-        return instance;
-    }
+	public static MOTDPlugin get() {
+		return instance;
+	}
 
-    public MOTDPlugin(@Nonnull JavaPluginInit init) {
-        super(init);
-        this.config = this.withConfig("MOTDConfig", MOTDConfig.CODEC);
-    }
+	public MOTDPlugin(@Nonnull JavaPluginInit init) {
+		super(init);
+		this.config = this.withConfig("MOTDConfig", MOTDConfig.CODEC);
+	}
 
-    private void onPlayerConnect(PlayerConnectEvent event) {
-        PlayerRef playerRef = event.getPlayerRef();
-        if (playerRef != null && playerRef.isValid()) {
-            playerRef.sendMessage(MOTDDatabase.getMOTD());
-        }
-    }
+	private void onPlayerConnect(PlayerConnectEvent event) {
+		PlayerRef playerRef = event.getPlayerRef();
+		if (playerRef != null && playerRef.isValid()) {
+			playerRef.sendMessage(MOTDDatabase.getMOTD());
+		}
+	}
 
-    @Override
-    protected void setup() {
-        instance = this;
-        this.getCommandRegistry().registerCommand(new MOTDCommand());
-        this.getEventRegistry().registerGlobal(PlayerConnectEvent.class, this::onPlayerConnect);
+	@Override
+	protected void setup() {
+		instance = this;
+		this.getCommandRegistry().registerCommand(new MOTDCommand());
+		this.getEventRegistry().registerGlobal(PlayerConnectEvent.class, this::onPlayerConnect);
 
-        ageComponent = this.getEntityStoreRegistry().registerComponent(MOTDAgeComponent.class, MOTDAgeComponent::new);
-        this.getEntityStoreRegistry().registerSystem(new RepeatingSystem());
-    }
+		ageComponent = this.getEntityStoreRegistry().registerComponent(MOTDAgeComponent.class, MOTDAgeComponent::new);
+		this.getEntityStoreRegistry().registerSystem(new RepeatingSystem());
+	}
 
-    @Override
-    protected void start() {
-        super.start();
-        this.config.save();
-        MOTDConfig config = this.config.get();
-        MOTDDatabase.populateList(config);
-    }
+	@Override
+	protected void start() {
+		super.start();
+		this.config.save();
+		MOTDConfig config = this.config.get();
+		MOTDDatabase.populateList(config);
+	}
 
-    public Config<MOTDConfig> getMOTDConfig() {
-        return this.config;
-    }
+	public Config<MOTDConfig> getMOTDConfig() {
+		return this.config;
+	}
 }

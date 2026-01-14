@@ -17,54 +17,54 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 import javax.annotation.Nonnull;
 
 public class RepeatingSystem extends EntityTickingSystem<EntityStore> {
-    private int tickCounter = 0;
+	private int tickCounter = 0;
 
-    @Nonnull
-    private static final Query<EntityStore> QUERY = Query.and(
-            Player.getComponentType()
-    );
+	@Nonnull
+	private static final Query<EntityStore> QUERY = Query.and(
+			Player.getComponentType()
+	);
 
-    @Override
-    public void tick(float dt, int index, @Nonnull ArchetypeChunk<EntityStore> archetypeChunk,
-                     @Nonnull Store<EntityStore> store, @Nonnull CommandBuffer<EntityStore> commandBuffer) {
-        tickCounter += 1;
-        int TICKS_PER_SECOND = 30;
-        if (tickCounter < TICKS_PER_SECOND) {
-            return; // Only process once per second
-        }
-        tickCounter = 0;
+	@Override
+	public void tick(float dt, int index, @Nonnull ArchetypeChunk<EntityStore> archetypeChunk,
+	                 @Nonnull Store<EntityStore> store, @Nonnull CommandBuffer<EntityStore> commandBuffer) {
+		tickCounter += 1;
+		int TICKS_PER_SECOND = 30;
+		if (tickCounter < TICKS_PER_SECOND) {
+			return; // Only process once per second
+		}
+		tickCounter = 0;
 
-        PlayerRef playerref = archetypeChunk.getComponent(index, PlayerRef.getComponentType());
-        Ref<EntityStore> ref = archetypeChunk.getReferenceTo(index);
+		PlayerRef playerref = archetypeChunk.getComponent(index, PlayerRef.getComponentType());
+		Ref<EntityStore> ref = archetypeChunk.getReferenceTo(index);
 
-        assert playerref != null;
+		assert playerref != null;
 
-        MOTDAgeComponent ageComponent = commandBuffer.getComponent(ref, MOTDPlugin.ageComponent);
-        if (ageComponent == null) {
-            ageComponent = new MOTDAgeComponent();
-            commandBuffer.addComponent(ref, MOTDPlugin.ageComponent, ageComponent);
-        }
+		MOTDAgeComponent ageComponent = commandBuffer.getComponent(ref, MOTDPlugin.ageComponent);
+		if (ageComponent == null) {
+			ageComponent = new MOTDAgeComponent();
+			commandBuffer.addComponent(ref, MOTDPlugin.ageComponent, ageComponent);
+		}
 
-        // Just to be safe
-        if (ageComponent == null) {
-            return;
-        }
+		// Just to be safe
+		if (ageComponent == null) {
+			return;
+		}
 
-        int currentAge = ageComponent.getAge();
-        ageComponent.setAge(currentAge + 1);
+		int currentAge = ageComponent.getAge();
+		ageComponent.setAge(currentAge + 1);
 
-        int ageInSeconds = ageComponent.getAge();
-        // Check if age is multiple of configured interval
-        int interval = MOTDDatabase.getIntervalBetweenRepeatingMessages();
+		int ageInSeconds = ageComponent.getAge();
+		// Check if age is multiple of configured interval
+		int interval = MOTDDatabase.getIntervalBetweenRepeatingMessages();
 
-        if (interval > 0 && ageInSeconds > 0 && ageInSeconds % interval == 0) {
-            MOTDDatabase.sendRepeatingMessage(playerref, playerref.getUuid());
-        }
-    }
+		if (interval > 0 && ageInSeconds > 0 && ageInSeconds % interval == 0) {
+			MOTDDatabase.sendRepeatingMessage(playerref, playerref.getUuid());
+		}
+	}
 
-    @NullableDecl
-    @Override
-    public Query<EntityStore> getQuery() {
-        return QUERY;
-    }
+	@NullableDecl
+	@Override
+	public Query<EntityStore> getQuery() {
+		return QUERY;
+	}
 }
