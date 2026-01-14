@@ -1,5 +1,6 @@
-package com.mrbysco.motd.command;
+package com.mrbysco.motd.command.motd;
 
+import com.hypixel.hytale.protocol.GameMode;
 import com.hypixel.hytale.server.core.command.system.CommandContext;
 import com.hypixel.hytale.server.core.command.system.arguments.system.RequiredArg;
 import com.hypixel.hytale.server.core.command.system.arguments.types.ArgTypes;
@@ -12,7 +13,8 @@ public class MOTDAddCommand extends CommandBase {
     private final RequiredArg<String> messageArg = this.withRequiredArg("message", "The MOTD to add", ArgTypes.STRING);
 
     public MOTDAddCommand() {
-        super("add", "Adds a new MOTD message");
+        super("add", "Adds a new MOTD message", true);
+        this.setPermissionGroup(GameMode.Creative);
         this.requirePermission(HytalePermissions.fromCommand("motd.add"));
     }
 

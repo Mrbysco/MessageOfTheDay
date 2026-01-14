@@ -1,8 +1,10 @@
-package com.mrbysco.motd.command;
+package com.mrbysco.motd.command.motd;
 
 import com.hypixel.hytale.protocol.GameMode;
 import com.hypixel.hytale.server.core.command.system.CommandContext;
+import com.hypixel.hytale.server.core.command.system.CommandUtil;
 import com.hypixel.hytale.server.core.command.system.basecommands.CommandBase;
+import com.hypixel.hytale.server.core.permissions.HytalePermissions;
 import com.mrbysco.motd.data.MOTDDatabase;
 
 import javax.annotation.Nonnull;
@@ -18,7 +20,7 @@ public class MOTDCommand extends CommandBase {
     }
 
     @Override
-    protected void executeSync(@Nonnull CommandContext ctx) {
-        ctx.sendMessage(MOTDDatabase.getMOTD());
+    protected void executeSync(@Nonnull CommandContext commandContext) {
+	    MOTDDatabase.sendMOTD(commandContext.sender());
     }
 }
