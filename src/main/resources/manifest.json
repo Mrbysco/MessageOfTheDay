@@ -1,7 +1,7 @@
 {
     "Group": "MOTD",
     "Name": "MOTD",
-    "Version": "0.1.0",
+    "Version": "0.1.1",
     "Description": "Displays a custom message of the day on server join",
     "Authors": [
         {
