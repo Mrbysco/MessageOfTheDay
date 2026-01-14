@@ -1,0 +1,25 @@
+{
+    "Group": "MOTD",
+    "Name": "MOTD",
+    "Version": "0.1.0",
+    "Description": "Displays a custom message of the day on server join",
+    "Authors": [
+        {
+            "Name": "Mrbysco"
+        },
+        {
+            "Name": "ShyNieke"
+        }
+    ],
+    "Website": "https://www.curseforge.com/hytale/mods/motd",
+    "ServerVersion": "*",
+    "Dependencies": {
+        
+    },
+    "OptionalDependencies": {
+        
+    },
+    "DisabledByDefault": false,
+    "Main": "com.mrbysco.motd.MOTDPlugin",
+    "IncludesAssetPack": true
+}
