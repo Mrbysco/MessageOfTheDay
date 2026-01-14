@@ -14,7 +14,7 @@
     "Website": "https://www.curseforge.com/hytale/mods/motd",
     "ServerVersion": "*",
     "Dependencies": {
-        
+        "Hytale:EntityModule": "*"
     },
     "OptionalDependencies": {
         
