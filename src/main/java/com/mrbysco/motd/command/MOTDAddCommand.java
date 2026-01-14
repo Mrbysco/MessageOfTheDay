@@ -19,6 +19,10 @@ public class MOTDAddCommand extends CommandBase {
     @Override
     protected void executeSync(@NonNullDecl CommandContext commandContext) {
         String message = this.messageArg.get(commandContext);
+        // Remove encasing quotes
+        if (message.startsWith("\"") && message.endsWith("\"")) {
+            message = message.substring(1, message.length() - 1);
+        }
         MOTDDatabase.addMOTD(message);
     }
 }
